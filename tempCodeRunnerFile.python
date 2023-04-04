@@ -1,0 +1,130 @@
+import copy as c
+q = []
+visited = []
+def display(s):
+    for i in s:
+        print(i)
+    print("-----------------------------------")
+
+def emptybox(s):
+    for i in range(len(s)):
+        for j in range(len(s[i])):
+            if s[i][j] == 0:
+                return ([i, j])
+
+def up(s):
+    pos = emptybox(s)
+    i = pos[0]
+    j = pos[1]
+
+    if i > 0:
+        s[i][j] = s[i - 1][j]
+        s[i - 1][j] = 0
+    return s
+
+def down(s):
+    pos = emptybox(s)
+    i = pos[0]
+    j = pos[1]
+
+    if i < len(s)-1:
+        s[i][j] = s[i + 1][j]
+        s[i + 1][j] = 0
+    return s
+
+def left(s):
+    pos = emptybox(s)
+    i = pos[0]
+    j = pos[1]
+
+    if j>0:
+        s[i][j] = s[i][j - 1]
+        s[i][j - 1] = 0
+    return s
+
+def right(s):
+    pos = emptybox(s)
+    i = pos[0]
+    j = pos[1]
+
+    if j < len(s)-1:
+        s[i][j] = s[i][j + 1]
+        s[i][j + 1] = 0
+    return s
+
+def compare (s,r):
+    for i in range(len(s)):
+        for j in range(len(s[i])):
+            if s[i][j] != r[i][j]:
+                return False
+    return True
+
+def search(s,r):
+    global q
+    global visited
+    if compare(s,r):
+        print ("Found")
+        visited.append(s)
+        exit()
+    while (1):
+        initial = c.deepcopy(s)
+        u = up(initial)
+        display(initial)
+        if  initial == r:
+            print ("Found")
+            exit()
+        else:
+            if u not in visited and u not in q:
+                q.append(u)
+                if s!=u:
+                    s=u
+        
+        initial = c.deepcopy(s)
+        d = down(initial)
+        display(initial)
+        if  initial == r:
+            print ("Found")
+            exit()
+        else:
+            if d not in visited and d not in q:
+                q.append(d)
+                if s!=d:
+                    s=d
+
+        initial = c.deepcopy(s)
+        l = left(initial)
+        display(initial)
+        if  initial == r:
+            print ("Found")
+            exit()
+        else:
+            if l not in visited and l not in q:
+                q.append(l)
+                if s!=l:
+                    s=l
+
+        initial = c.deepcopy(s)
+        r1 = right(initial)
+        display(initial)
+        if  initial == r:
+            print ("Found")
+            exit()
+        else:
+            if r1 not in visited and r1 not in q:
+                q.append(r)
+                if s!=r1:
+                    s=r1
+
+        if len(q)>0:
+            s=q[len(q)-1]
+        else:
+            print("Not Found")
+            exit()
+
+def main():
+    s = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+    r = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
+    search(s,r)
+
+if __name__ == "__main__":
+    main()
